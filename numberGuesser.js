@@ -30,9 +30,6 @@ function validateGuess(guess){
   else if(guess>100){
     alert('Please enter number less than 100')
   }
-  else if(isNaN(guess)){
-    alert('Please enter a valid number')
-  }
   else{
     guessShown.push()
     if(numOfGuesses>10){
