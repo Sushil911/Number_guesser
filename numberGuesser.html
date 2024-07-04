@@ -3,90 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Number Guessing Game</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Number Guessing Game</h1>
-        <p class="mb-4 text-center text-gray-600">Guess a number between 1 and 100</p>
-        <div class="mb-4">
-            <input type="number" id="guessInput" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter your guess">
-        </div>
-        <button id="guessButton" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300 mb-4">Guess</button>
-        <p id="message" class="mb-4 text-center font-semibold"></p>
-        <p id="remainingGuesses" class="mb-4 text-center text-gray-600"></p>
-        <div id="previousGuesses" class="text-center mb-4"></div>
-        <button id="startOverButton" class="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition duration-300 mb-4 hidden">Start Over</button>
+<body class="bg-gray-900 text-white">    
+    <div id="wrapper" class="box-border text-center w-96 h-96 bg-gray-700 text-white text-lg p-4 mx-auto mt-10">
+      <h1 class="bg-gray-800 text-white text-2xl py-4">Number guessing game</h1>
+      <p class="text-center text-base">Try and guess a random number between 1 and 100.</p>
+      <p class="text-center text-base">You have 10 attempts to guess the right number.</p>
+      <br>
+      <form class="form mt-4">
+        <label for="guessField" id="guess" class="block text-white text-3xl my-8">Guess a number</label>
+        <input type="text" id="guessField" class="guessField text-black w-64 h-12 text-xl border-none mt-6 mx-auto block border-4 border-gray-600 text-center">
+        <input type="submit" id="subt" value="Submit guess" class="guessSubmit bg-gray-800 text-white w-48 h-12 rounded-lg text-xl border-none mt-12 block mx-auto">
+      </form>
+
+      <div class="resultParas mt-4">
+        <p>Previous Guesses: <span class="guesses bg-gray-500 text-white p-2"></span></p>
+        <p>Guesses Remaining: <span class="lastResult bg-gray-500 text-white p-2">10</span></p>
+        <p class="lowOrHi"></p>
+      </div>
     </div>
-
-    <script>
-        let randomNumber;
-        let guessCount;
-        let previousGuesses;
-        let gameActive = true;
-
-        function initGame() {
-            randomNumber = Math.floor(Math.random() * 100) + 1;
-            guessCount = 0;
-            previousGuesses = [];
-            gameActive = true;
-            updateUI();
-            document.getElementById('startOverButton').classList.add('hidden');
-            document.getElementById('guessButton').classList.remove('hidden');
-            document.getElementById('guessInput').disabled = false;
-        }
-
-        function updateUI() {
-            document.getElementById('remainingGuesses').textContent = `Remaining guesses: ${10 - guessCount}`;
-            document.getElementById('previousGuesses').innerHTML = previousGuesses.map(guess => 
-                `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${guess}</span>`
-            ).join('');
-            document.getElementById('guessInput').value = '';
-        }
-
-        function endGame(won) {
-            gameActive = false;
-            document.getElementById('guessButton').classList.add('hidden');
-            document.getElementById('startOverButton').classList.remove('hidden');
-            document.getElementById('guessInput').disabled = true;
-            if (won) {
-                document.getElementById('message').textContent = `Congratulations! You guessed the number ${randomNumber} in ${guessCount} tries!`;
-            } else {
-                document.getElementById('message').textContent = `Game over! The number was ${randomNumber}.`;
-            }
-        }
-
-        document.getElementById('guessButton').addEventListener('click', function() {
-            if (!gameActive) return;
-
-            const guess = parseInt(document.getElementById('guessInput').value);
-            if (isNaN(guess) || guess < 1 || guess > 100) {
-                document.getElementById('message').textContent = 'Please enter a valid number between 1 and 100.';
-                return;
-            }
-
-            guessCount++;
-            previousGuesses.push(guess);
-
-            if (guess === randomNumber) {
-                endGame(true);
-            } else if (guessCount === 10) {
-                endGame(false);
-            } else {
-                if (guess < randomNumber) {
-                    document.getElementById('message').textContent = `${guess} is too low. The random number is higher.`;
-                } else {
-                    document.getElementById('message').textContent = `${guess} is too high. The random number is lower.`;
-                }
-            }
-
-            updateUI();
-        });
-
-        document.getElementById('startOverButton').addEventListener('click', initGame);
-
-        initGame();
-    </script>
+    <script src="chaiaurcode.js"></script>
 </body>
 </html>
